@@ -42,7 +42,7 @@ function changefocus()
 /*
  * Utilisation de l'API 1 en ajoutant un filtre qui va rechercher aussi les villes 
  * qui ont ete trouver en autocompletant les villes populaires qui matchs
- * 'pop' choisi le tableau de villes populaires soit avec API 1 soit avec API 3
+ * 'pop' choisi le tableau de villes populaires soit avec API 2 soit avec API 3
  * l'array resultant est garde en memoire via car3 ou car4 (defini selon 'mode')un pour chaque barre de recherche 
  */
 function api_filter(filterString,pop,mode)
