@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Document</title>
+        <link rel="stylesheet" href="app.css" />
+    </head>
+    <body>
+        <div class="container">
+            <h1>&#x2728;Recherche ville / Gare &#x2728;</h1>
+			<div id="c1">
+				<div id="searchWrapper">
+					<span>Depart</span>
+					<input
+						type="text"
+						name="searchBar"
+						id="searchBar"
+						placeholder="Gare ou ville"
+						onfocus=changefocus();
+					/>
+				</div>
+				<div id="searchWrapper2">
+					<span>Arrivee</span>
+					<input
+						type="text"
+						name="searchBar2"
+			            id="searchBar2"
+				        placeholder="Gare ou ville"
+						onfocus=changefocus();
+					 />
+				</div>
+				<div class="date">
+					<span>Aller</span>
+					<input type="date" class="start" name="trip-start"
+						value="2020-10-07"
+						min="2020-10-07" max="2021-10-07">
+				</div>
+				<div class="date">
+					<span>Retour</span>
+					<input type="date" class="start" id="end" name="trip-start"
+						value="2020-10-07"
+						min="2020-10-07" max="2021-10-07">
+				</div>
+			</div>
+			<div id="c2">
+				<ul id="citiesList"></ul>
+				 <script src="app3.js"></script>
+			</div>
+		</div>
+	</body>
+</html>

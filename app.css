@@ -1,0 +1,131 @@
+body {
+    font-family: sans-serif;
+    background-color: #111d4a;
+}
+
+* {
+    box-sizing: border-box;
+}
+h1 {
+    color: #eee;
+    margin-bottom: 30px;
+}
+.container {
+    padding: 40px;
+    text-align: center;
+}
+
+#citiesList {
+    padding-inline-start: 0;
+    display: grid;
+    grid-gap: 0px;
+}
+
+.city {
+	width: 550px;
+	height:50px;
+    list-style-type: none;
+    background-color: #eaeaea;
+    border-radius: 3px;
+    padding: 1px 5px;
+    display: grid;
+    text-align: justify;
+}
+.city:hover{
+background-color: rgb(220,220,220);
+}
+.city > h2 {
+	text-align:center;
+}
+
+#searchBar {
+    width: 100%;
+    height: 40px;
+    border-radius: 3px;
+    border: 1px solid #eaeaea;
+    padding: 5px 10px;
+    font-size: 12px;
+	padding-inline-start:90px;
+}
+
+#searchBar2 {
+    width: 100%;
+    height: 40px;
+    border-radius: 3px;
+    border: 1px solid #eaeaea;
+    padding: 5px 10px;
+    font-size: 12px;
+	padding-inline-start:90px;
+	display:inline-block;
+}
+
+#searchWrapper {
+	width:70%;
+    position: relative;
+	display:flex;
+	-webkit-align-items: center;
+	margin-left:10%;
+	margin-bottom:1px;
+	float:right;
+}
+#searchWrapper2 {
+	width:70%;
+    position: relative;
+	display:flex;
+	-webkit-align-items: center;
+	margin-left:10%;
+	float:right;
+	margin-bottom:20px;
+
+}
+span
+{
+position:absolute;
+margin-left:10px;
+}
+
+#searchWrapper::after {
+    content: '🔍';
+    position: relative;
+    top: 1px;
+    right: 25px;
+}
+#searchWrapper2::after {
+    content: '🔍';
+    position: relative;
+    top: 1px;
+    right: 25px;
+}
+#c1
+{
+	width:40%;
+	float:left;
+	margin-left:10%;
+}
+#c2
+{
+width:50%;
+height:100%;
+}
+
+.start
+{
+width:95%;
+    height: 40px;
+    border-radius: 3px;
+    border: 1px solid #eaeaea;
+    padding: 5px 10px;
+    font-size: 12px;
+	padding-inline-start:90px;
+
+}
+.date
+{
+	width:70%;
+    position: relative;
+	display:flex;
+	-webkit-align-items: center;
+	margin-bottom:1px;
+	float:right;
+
+}
