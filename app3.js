@@ -15,6 +15,10 @@ let car3 = [];
 let car4 = [];
 let finalApi = '';
 
+/*
+ * On recupere le tableau popular des villes les plus populaire via l'api 2
+ */
+
 const loadPopular = async () => {
 	try
 	{
@@ -26,16 +30,21 @@ const loadPopular = async () => {
 
 };
 
+/*
+ * savoir quelle est la barre de recherche a autocomplete
+ */
+
 function changefocus()
 {
 	focusedBar=document.activeElement;
 };
 
-function mergeUnique(arr1, arr2){
-	return arr1.concat(arr2.filter(function (item) {
-				return arr1.indexOf(item) === -1;
-				}));
-}
+/*
+ * Utilisation de l'API 1 en ajoutant un filtre qui va rechercher aussi les villes 
+ * qui ont ete trouver en autocompletant les villes populaires qui matchs
+ * 'pop' choisi le tableau de villes populaires soit avec API 1 soit avec API 3
+ * l'array resultant est garde en memoire via car3 ou car4 (defini selon 'mode')un pour chaque barre de recherche 
+ */
 function api_filter(filterString,pop,mode)
 {
 	const filteredCharacters = pop.filter((city) => {
@@ -50,12 +59,12 @@ function api_filter(filterString,pop,mode)
 		{
 			searchString = 'https://api.comparatrip.eu/cities/autocomplete/?q=';
 			searchString = searchString.concat(filteredCharacters[i].unique_name);
-			tt(searchString);
+			algo(searchString);
 		}
 	}
 	searchString = 'https://api.comparatrip.eu/cities/autocomplete/?q=';
 	searchString = searchString.concat(filterString);
-	tt(searchString);
+	algo(searchString);
 	if (mode === 1)
 		car3 = JSON.parse(JSON.stringify(car2));
 	else
@@ -65,6 +74,10 @@ function api_filter(filterString,pop,mode)
 
 };
 
+/*
+ * Si la barre de recherche depart est vide on affiche les villes poulaire sinon, le resultat
+ */
+
 searchBar.addEventListener('keyup', (e) => {
 		filterString = e.target.value.toLowerCase();
 		if (filterString !== '')
@@ -72,13 +85,21 @@ searchBar.addEventListener('keyup', (e) => {
 		else
 			displayCities(popular);
 		});
-
-function test (that,searchBar) {
+/*
+ * en cliquant sur l'un des <li> generer on recupere son id et on autocomplete la barre de recherche avec sa valeur
+ */
+function autocomplete(that,searchBar) {
 	id_autocomplete = that.id;
 	focusedBar.value = id_autocomplete;
 }
 
-async function tt (string) {
+/*
+ * Recupere le tableau JSON d'une API
+ * Concatene 2 array sans doublons (utile pour la boucle qui check les villes populaires vu plus haut)
+ * puis appelle l'affichage
+ */
+
+async function algo (string) {
 	cities = [];
 	try {
 		res = await fetch(string);
@@ -92,13 +113,17 @@ async function tt (string) {
 	searchString = 'https://api.comparatrip.eu/cities/autocomplete/?q=';
 };
 
+/*
+ * Affichage
+ */
+
 const displayCities = (position) => {
 	const htmlString = position
 		.map((city) => {
 				if (city.station_unique_name == null)
 				{
 					return `
-					<li class="city", id="${city.unique_name}", onClick=test(this)>
+					<li class="city", id="${city.unique_name}", onClick=autocomplete(this)>
 					<h2>${city.unique_name}</h2>
 					</li>
 					`;
@@ -106,7 +131,7 @@ const displayCities = (position) => {
 				else
 				{
 					return `
-					<li class="city", id="${city.station_unique_name}", onClick=test(this)>
+					<li class="city", id="${city.station_unique_name}", onClick=autocomplete(this)>
 					<h2>${city.station_unique_name}</h2>
 					</li>
 					`;
@@ -115,6 +140,10 @@ const displayCities = (position) => {
 	.join('');
 	citiesList.innerHTML = htmlString;
 };
+
+/*
+ * On recupere le tableau popular2 des villes les plus populaires suivant la ville de depart via l'api 3
+ */
 
 const loadPopular2 = async () => {
 	try{
@@ -128,6 +157,10 @@ const loadPopular2 = async () => {
 	}
 };
 
+/*
+ * Supprime l'affichage
+ */
+
 function remove() {
 	while (citiesList.hasChildNodes())
 		citiesList.removeChild(citiesList.firstChild);
@@ -135,6 +168,11 @@ function remove() {
 };
 
 loadPopular();
+
+/*
+ * Affiche le tableau des villes populaires si vide
+ * sinon affiche le dernier tableau des resultats en memoire
+ */
 
 searchBar.addEventListener('click', (e) => {
 		if (searchBar.value === '')
@@ -145,6 +183,13 @@ searchBar.addEventListener('click', (e) => {
 			api_filter(filterString,popular,1);
 		}
 });
+
+/*
+ * Affiche le tableau des villes populaire en fonction de la ville de depart si la 1ere barre de recherche n'est pas vide et que celle de l'arrivee est vide
+ * Affiche le tableau des villes populaires si les 2 barres sont vides
+ * sinon affiche le dernier tableau des resultats en memoire
+ */
+
 searchBar2.addEventListener('click', (e) => {
 		const api = 'https://api.comparatrip.eu/cities/popular/from/';
 		const api2 = '/5';
@@ -166,21 +211,31 @@ searchBar2.addEventListener('click', (e) => {
 		}
 });
 
+/*
+ * Si la barre n'est pas vide on cherche le tableau de resultats
+ * sinon si seulement la barre de recherche Arrivee est vide on affiche les villes populaires en fonction de la ville de depart
+ * si les 2 barres sont vides affiche seulement les villes les plus populaires generales
+ */
+
 searchBar2.addEventListener('keyup', (e) => {
 		filterString2 = e.target.value.toLowerCase();
 		if (filterString2 !== '')
-		api_filter(filterString2,popular2,0);
+			api_filter(filterString2,popular2,0);
 		else
 		{
-		if (searchBar.value === '')
-		displayCities(popular);
-		else
-		{
-		loadPopular2();
-		displayCities(popular2);
+			if (searchBar.value === '')
+				displayCities(popular);
+			else
+			{
+				loadPopular2();
+				displayCities(popular2);
+			}
 		}
-		}
-		});
+});
+
+/*
+ * Si l'on clique en dehors d'une barre de recherche cela ferme le tableau de resultats
+ */
 
 window.addEventListener('click', function(e){
 		if (!(document.getElementById('searchWrapper').contains(e.target) || document.getElementById('searchWrapper2').contains(e.target))){
